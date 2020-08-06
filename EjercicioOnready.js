@@ -30,23 +30,7 @@ function numtostr(num) {
   let numero = new Intl.NumberFormat("es-Es", {
     minimumFractionDigits: 2,
   }).format(num);
-
   return numero.toString(numero);
-}
-
-function reemchar(str) {
-  for (const char in str) {
-    switch (char) {
-      case ",":
-        char.replace(",", ".");
-
-        break;
-      case ".":
-        char.replace(".", ",");
-        break;
-    }
-  }
-  return "$" + str;
 }
 
 function clave(val) {
@@ -105,6 +89,12 @@ function mayamen(array) {
   return array;
 }
 
+function precio(str) {
+  let arrayprecio = str.replace(".", ",");
+  let preciofinal = arrayprecio.split(",");
+  return preciofinal[0] + "." + preciofinal[1] + "," + preciofinal[2];
+}
+
 for (let index = 0; index < ArrayAutos.length; index++) {
   clave(ArrayAutos[index]);
 
@@ -118,7 +108,8 @@ for (let index = 0; index < ArrayAutos.length; index++) {
       clave(ArrayAutos[index]) +
       " //" +
       " Precio: " +
-      reemchar(numtostr(ArrayAutos[index].Precio))
+      "$" +
+      precio(numtostr(ArrayAutos[index].Precio))
   );
 }
 
@@ -136,8 +127,10 @@ console.log(
     " " +
     ArrayAutos[posletraY(ArrayAutos)].Modelo +
     " " +
-    reemchar(numtostr(ArrayAutos[posletraY(ArrayAutos)].Precio))
+    "$" +
+    precio(numtostr(ArrayAutos[posletraY(ArrayAutos)].Precio))
 );
+
 console.log("======================================");
 console.log("Vehiculos ordenados por precio de mayor a menor ");
 mayamen(ArrayAutos).forEach((element) => {
